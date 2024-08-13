@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
 import pandas as pd
 
+#generate the data - using input from the 'three basic scenarios'
 def generate_synthetic_data(num_samples, scenario):
     data = []
     for _ in range(num_samples):
@@ -38,7 +39,6 @@ def generate_synthetic_data(num_samples, scenario):
         data.append(feature_vector)
     return data
 
-# Generate data
 num_samples_per_scenario = 100
 increasing_population_data = generate_synthetic_data(num_samples_per_scenario, "increasing")
 decreasing_population_data = generate_synthetic_data(num_samples_per_scenario, "decreasing")
@@ -47,23 +47,21 @@ stable_population_data = generate_synthetic_data(num_samples_per_scenario, "stab
 data = increasing_population_data + decreasing_population_data + stable_population_data
 labels = ['increasing'] * num_samples_per_scenario + ['decreasing'] * num_samples_per_scenario + ['stable'] * num_samples_per_scenario
 
-# Data preparation
+# prep the data
 data = np.array(data)
 labels = np.array(labels)
 
-# Normalize
 scaler = StandardScaler()
 data = scaler.fit_transform(data)
 
-# Encode labels as integers and convert to one-hot encoding
 label_encoder = LabelEncoder()
 integer_encoded_labels = label_encoder.fit_transform(labels)
 one_hot_labels = to_categorical(integer_encoded_labels)
 
-# Split the data into training and testing sets
+# split the data
 X_train, X_test, y_train, y_test = train_test_split(data, one_hot_labels, test_size=0.3, random_state=42)
 
-# Define and train MLP model
+# MLP
 model = Sequential()
 model.add(Dense(256, input_dim=X_train.shape[1], activation='relu', kernel_regularizer=l2(0.001)))
 model.add(Dropout(0.3))
@@ -80,20 +78,20 @@ model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['ac
 early_stopping = EarlyStopping(monitor='val_loss', patience=20, restore_best_weights=True)
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10, min_lr=0.0001)
 
-# Train the model
+# train
 history = model.fit(X_train, y_train, epochs=200, batch_size=32, validation_split=0.2, callbacks=[early_stopping, reduce_lr])
 
-# Evaluate model
+#loss
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f'Test Loss: {loss}')
 print(f'Test Accuracy: {accuracy}')
 
-# Predict on the test set
+# predict for the test set
 y_pred = model.predict(X_test)
 y_pred_classes = np.argmax(y_pred, axis=1)
 y_true_classes = np.argmax(y_test, axis=1)
 
-# Generate confusion matrix
+# confusion matrix
 cm = confusion_matrix(y_true_classes, y_pred_classes)
 cm_df = pd.DataFrame(cm, index=label_encoder.classes_, columns=label_encoder.classes_)
 
