@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv 
 
-
+#msprime model
 def fish(params, sample_sizes, length, seed, reco, generation_time=6):
     assert len(sample_sizes) == 1
 
@@ -64,6 +64,7 @@ def repeat_simulations(params, sample_sizes, length, reco, generation_time, num_
     save_results_to_csv(results, 'shad_results.csv')
 
     return results
+#params
 params = {"mut": 2.0e-9}
 sample_sizes = [10]
 length = 100_000
@@ -74,6 +75,7 @@ num_simulations = 200
 
 results = repeat_simulations(params, sample_sizes, length, reco, generation_time, num_simulations, seed=seed)
 
+#population size changes
 times = []
 sizes = []
 for event in results[0][1]:
@@ -83,6 +85,7 @@ for event in results[0][1]:
 times = np.array(times)
 sizes = np.array(sizes)
 
+#population plot
 plt.plot(times, sizes)
 plt.xlabel("Time (years)")
 plt.ylabel("Population Size")
@@ -97,6 +100,7 @@ wattersons_thetas = [result[4] for result in results]
 num_snps_list = [result[5] for result in results]
 allele_frequency_spectra = [result[6] for result in results]
 
+#nucleotide diversity plot
 plt.figure(figsize=(10, 5))
 plt.hist(diversities, bins=10, color='skyblue', edgecolor='black', alpha=0.7)
 plt.xlabel("Nucleotide Diversity (π)")
@@ -104,6 +108,7 @@ plt.ylabel("Frequency")
 plt.title("Histogram of Nucleotide Diversity Across Simulations")
 plt.show()
 
+#tajimas d plot
 plt.figure(figsize=(10, 5))
 plt.hist(tajimas_ds, bins=10, color='pink', edgecolor='black', alpha=0.7)
 plt.xlabel("Tajima's D")
@@ -111,6 +116,7 @@ plt.ylabel("Frequency")
 plt.title("Distribution of Tajima's D Across Simulations")
 plt.show()
 
+#wattersons theta plot
 plt.figure(figsize=(10, 5))
 plt.hist(wattersons_thetas, bins=10, color='lightgreen', edgecolor='black', alpha=0.7)
 plt.xlabel("Watterson's Theta")
@@ -118,6 +124,7 @@ plt.ylabel("Frequency")
 plt.title("Distribution of Watterson's Theta Across Simulations")
 plt.show()
 
+#number of snps plot
 plt.figure(figsize=(10, 5))
 plt.hist(num_snps_list, bins=10, color='lightcoral', edgecolor='black', alpha=0.7)
 plt.xlabel("Number of SNPs")
@@ -133,6 +140,7 @@ plt.ylabel("Number of SNPs")
 plt.title("Joint Distribution of Watterson's Theta and Number of SNPs")
 plt.show()
 
+#afs
 plt.figure(figsize=(10, 5))
 bar_width = 0.8 / num_simulations 
 colors = plt.cm.tab20(np.linspace(0, 1, num_simulations)) 
@@ -145,6 +153,7 @@ plt.ylabel("Number of Sites")
 plt.title("Allele Frequency Spectrum Across Simulations")
 plt.show()
 
+#combined afs
 combined_afs = np.sum(allele_frequency_spectra, axis=0)
 normalized_afs = combined_afs / np.sum(combined_afs)
 
