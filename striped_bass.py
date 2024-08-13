@@ -74,7 +74,7 @@ def repeat_simulations(params, sample_sizes, length, reco, generation_time, num_
         allele_frequency_spectrum = ts.allele_frequency_spectrum(polarised=True)
         results.append((ts, demographic_events, diversity, tajimas_d, theta_w, num_snps, allele_frequency_spectrum))
     
-    save_results_to_csv(results, 'shad_results.csv')
+    save_results_to_csv(results, 'bass_results.csv')
 
     return results
 #params
