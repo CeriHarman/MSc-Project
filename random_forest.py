@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import joblib
 
+#generate synthetic data - using information from the 'three basic' scenarios
 def generate_synthetic_data(num_samples, scenario):
     data = []
     for _ in range(num_samples):
@@ -35,7 +36,6 @@ def generate_synthetic_data(num_samples, scenario):
 
 num_samples_per_scenario = 100
 
-# Generate data
 increasing_population_data = generate_synthetic_data(num_samples_per_scenario, "increasing")
 decreasing_population_data = generate_synthetic_data(num_samples_per_scenario, "decreasing")
 stable_population_data = generate_synthetic_data(num_samples_per_scenario, "stable")
@@ -43,12 +43,14 @@ stable_population_data = generate_synthetic_data(num_samples_per_scenario, "stab
 data = increasing_population_data + decreasing_population_data + stable_population_data
 labels = ['increasing'] * num_samples_per_scenario + ['decreasing'] * num_samples_per_scenario + ['stable'] * num_samples_per_scenario
 
+#sort the data
 data = np.array(data)
 labels = np.array(labels)
 
 scaler = StandardScaler()
 data = scaler.fit_transform(data)
 
+#split
 X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.3, random_state=42)
 
 # hyperparameter tuning using GridSearchCV
@@ -63,7 +65,7 @@ grid.fit(X_train, y_train)
 #best params
 print(f"Best parameters found: {grid.best_params_}")
 
-# Evaluate the model
+
 y_pred = grid.predict(X_test)
 print("RandomForest Classification Report:")
 print(classification_report(y_test, y_pred))
@@ -85,7 +87,7 @@ joblib.dump(grid, 'random_forest_population_model.pkl')
 # Load the model 
 loaded_model = joblib.load('random_forest_population_model.pkl')
 
-# New sample values
+# New sample values - input summary stat values here
 new_sample_values = [
     3.91488888888889e-05,   #nucelotide diversity
     0.023968560194865148,   #tajimas d
