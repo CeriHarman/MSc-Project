@@ -31,14 +31,13 @@ To address objective 2, I applied the approach developed under objective 1 to da
 # Requirements
 <a name="requirements"></a>
 
-msprime==0.7.4
-numpy==1.17.2
-tensorflow==2.2.0
-scikit-learn>=1.0.2
-matplotlib>=3.5.3
-pandas>=1.3.5
-seaborn>=0.12.2
-
+- msprime==0.7.4
+- numpy==1.17.2
+- tensorflow==2.2.0
+- scikit-learn>=1.0.2
+- matplotlib>=3.5.3
+- pandas>=1.3.5
+- seaborn>=0.12.2
 - As well as requirements following the [pg-gan github page](https://github.com/mathiesonlab/pg-gan)
 
 
@@ -147,7 +146,7 @@ And then return the graphs, for example:
 # Machine Learning
 <a name="ml"></a>
 
-**the models**
+**The models**
 
 To address the main aim of the project and to demonstrate the abilities of deep learning, it was important to use a simple machine learning method e.g. Random Forest or SVM and then a Neural Network. This is so we can compare the abilities of current methods and see if deep learning can offer us more. As well as the three species of fish (shad, bass, salmon) I created three basic models to represent a decreasing, increasing and stable population, in order to provide values train the Random Forest. 
 Here are the values from the three basic scenarios, and how they are used in the random_forest.py:
@@ -196,7 +195,7 @@ new_sample_values = [
 
 **Deep Learning**
 
-For the deep learning, I used a Neural Network. This file 'NN.py' generates synthetic data with the same values from the random forest (for comparative reasons, change if necessary for your test) and uses it to train the MLP model (sequential). This neural network has 7 layers (4 dense and 3 dropout), this was done as it helped improve the Loss Vs Epochs in validation and training. This might be different for your data so change accordingly.
+For the deep learning, I used a Neural Network. This file 'NN.py' generates synthetic data with the same values from the random forest (for comparative reasons, change if necessary for your test) and uses it to train the MLP model (sequential). This neural network has 7 layers (4 dense and 3 dropout), this was done as it helped improve the Loss Vs Epochs in validation and training. This might be different for your data so change accordingly. See [Keras](https://keras.io/guides/sequential_model/) for more information on sequential models and how to use them.
 
 The MLP:
 ```
@@ -217,3 +216,7 @@ The NN.py file will return the popualtion prediction, classification report, a c
     <img src="https://github.com/user-attachments/assets/bd46ffaf-a514-4cb6-ad1a-b315ab267e03" alt="loss_v_epoch" width="400"/>
 </div>
 
+
+
+
+**And thats it! Thank you for taking the time to check out what I have been working on! This was as part of my MSc Bioinformatics Research Project, if you have any questions about the software or code, reach out to me on here. Project start: 04/03/2024 Project end: 23/08/2024**
